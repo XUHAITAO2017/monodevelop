@@ -258,6 +258,15 @@ namespace MonoDevelop.Components
 			return wbounds;
 		}
 
+		public static Gdk.Rectangle GetSceenBounds (this AppKit.NSView widget)
+		{
+			var frame = widget.Frame;
+			var point = ConvertToGdkCoordinates (widget.Window?.Screen, new Gdk.Point ((int)frame.Location.X, (int)frame.Location.Y));
+			frame.X = point.X;
+			frame.Y = point.Y;
+			return new Gdk.Rectangle ((int)frame.X, (int)frame.Y, (int)frame.Width, (int)frame.Height);
+		}
+
 		public static Gdk.Point ToScreenCoordinates (this Xwt.Widget widget, Xwt.Point point)
 		{
 			var spoint = widget.ConvertToScreenCoordinates (point).ToGdkPoint ();
